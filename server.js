@@ -5,7 +5,7 @@ const puppeteer = require('puppeteer');
 const app = express();
 app.use(express.json());
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3010;
 const API_KEY = process.env.API_KEY || 'chiave_segreta_molto_sicura';
 let browser;
 
