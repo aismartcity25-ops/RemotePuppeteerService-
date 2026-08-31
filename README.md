@@ -91,3 +91,4 @@ curl -X POST http://localhost:3010/scrape \
 
 - Puppeteer viene avviato con `--no-sandbox` e flag correlate: adatto per esecuzione in container/ambienti CI, ma valuta le implicazioni di sicurezza nel tuo contesto di deploy.
 - Il timeout di navigazione è impostato a 30 secondi.
+- I log vengono salvati in `logs/service.log` con data, ora e livello di log.

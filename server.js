@@ -1,9 +1,16 @@
 require('dotenv').config();
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const puppeteer = require('puppeteer');
 
 const app = express();
 app.use(express.json());
+
+const logsDir = path.resolve(__dirname, 'logs');
+const logFilePath = path.join(logsDir, 'service.log');
+if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
+const logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
 
 const PORT = process.env.PORT || 3010;
 const API_KEY = process.env.API_KEY || 'chiave_segreta_molto_sicura';
@@ -11,7 +18,13 @@ let browser;
 
 function logDebug(message, level = 'INFO') {
   const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}] [${level}] ${message}`);
+  const logLine = `[${timestamp}] [${level}] ${message}`;
+  console.log(logLine);
+  try {
+    logStream.write(`${logLine}\n`);
+  } catch (err) {
+    console.error(`[${timestamp}] [ERROR] Errore scrittura log su file: ${err.message}`);
+  }
 }
 
 async function getBrowser() {
